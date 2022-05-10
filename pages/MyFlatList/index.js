@@ -1,7 +1,7 @@
-import React from 'react';
-import {View, FlatList, StyleSheet, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, FlatList, StyleSheet, Text, Platform} from 'react-native';
 
-const arr = [...Array(20).keys()];
+const arr = [...Array(100).keys()];
 const styles = StyleSheet.create({
   wrapper: {
     padding: 10,
@@ -16,8 +16,13 @@ const styles = StyleSheet.create({
 });
 
 function MyFlatList() {
+  useEffect(() => {
+    console.log(Platform);
+  }, []);
+
   return (
     <View style={styles.wrapper}>
+      <Text>当前平台：{Platform.OS}</Text>
       <FlatList
         data={arr}
         renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
