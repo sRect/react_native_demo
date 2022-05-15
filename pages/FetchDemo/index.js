@@ -5,12 +5,19 @@ const FetchDemo = () => {
   const [data, setData] = useState('');
 
   useEffect(() => {
-    fetch('https://httpbin.org/uuid')
+    fetch('https://facebook.github.io/react-native/movies.json', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    })
       .then(res => res.json())
       .then(res => {
+        console.log('res==>');
         console.log(res);
       })
       .catch(err => {
+        console.log('err===>');
         console.log(err);
       });
   }, []);
