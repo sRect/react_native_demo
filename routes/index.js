@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 // import MyFlatList from './pages/MyFlatList';
 const MyFlatList = lazy(() => import('../pages/MyFlatList'));
 const FetchDemo = lazy(() => import('../pages/FetchDemo'));
+const CountDemo = lazy(() => import('../pages/CountDemo'));
 
 const styles = StyleSheet.create({
   link: {
@@ -45,6 +46,10 @@ const arr = [
     to: '/fetch',
     text: 'fetch',
   },
+  {
+    to: '/count',
+    text: 'count',
+  },
 ];
 
 const RouterConfig = () => {
@@ -68,6 +73,7 @@ const RouterConfig = () => {
 
           <Route path="/flatlist" element={<MyFlatList />} />
           <Route path="/fetch" element={<FetchDemo />} />
+          <Route path="/count" element={<CountDemo />} />
         </Routes>
       </Fragment>
     </Router>
