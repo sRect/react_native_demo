@@ -4,7 +4,7 @@ import {Context} from '../../store';
 import {actions} from './store';
 
 const CountDemo = () => {
-  const {contObj, dispatchCount} = useContext(Context);
+  const {uuidObj, contObj, dispatchCount} = useContext(Context);
 
   const handleIncrement = () => dispatchCount(actions.increment(1));
 
@@ -13,6 +13,9 @@ const CountDemo = () => {
   return (
     <View>
       <View>
+        <View>
+          <Text>uuid: {uuidObj.uuid}</Text>
+        </View>
         <Text>count: {contObj.count}</Text>
       </View>
       <View>

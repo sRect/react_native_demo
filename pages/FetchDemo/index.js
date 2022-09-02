@@ -1,7 +1,10 @@
-import React, {useEffect, useState, memo} from 'react';
+import React, {useEffect, useState, memo, useContext} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
+import {Context} from '../../store';
+import {actions} from './store';
 
 const FetchDemo = () => {
+  const {dispatchUuid} = useContext(Context);
   const [isShowLoding, setLoding] = useState(false);
   const [uuid, setUuid] = useState('');
 
@@ -14,8 +17,10 @@ const FetchDemo = () => {
         let responseJson = await res.json();
         console.log('====>res');
         console.log(responseJson);
+        let data = responseJson ? responseJson.uuid : '';
 
-        setUuid(responseJson ? responseJson.uuid : '');
+        setUuid(data);
+        dispatchUuid(actions.setUuid(data));
       } catch (error) {
         console.log('err==>');
         console.error(error);
@@ -23,7 +28,7 @@ const FetchDemo = () => {
         setLoding(false);
       }
     })();
-  }, []);
+  }, [dispatchUuid]);
 
   return (
     <View>
