@@ -1,10 +1,11 @@
-import React, {memo} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   useWindowDimensions,
-  Pressable,
+  // Pressable,
+  Button,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -30,22 +31,87 @@ const styles = StyleSheet.create({
     fontFamily: 'lucida grande',
     fontSize: 24,
   },
+  btnWrap: height => ({
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: height - 100,
+    zIndex: 10,
+  }),
+  btnTxt: {
+    color: 'red',
+    fontFamily: 'lucida grande',
+  },
 });
 
+// const linear = t => t;
+const slow_down = t => {
+  return 2 * t - t * t;
+};
+
+const interpolate = (rangA, rangB) => {
+  return value => {
+    const r = (rangB[1] - rangB[0]) / (rangA[1] - rangA[0]);
+
+    return rangB[0] + r * (value - rangA[0]);
+  };
+};
+
+const animate = (duration, easingFunc, callback) => {
+  const i_time = interpolate([0, duration], [0, 1]);
+  const t_start = new Date().getTime();
+
+  const _inner = () => {
+    requestAnimationFrame(() => {
+      let t_diff = new Date().getTime() - t_start;
+
+      if (t_diff >= duration) {
+        t_diff = duration;
+      }
+
+      // 运动函数时间
+      const t = i_time(t_diff); // 当前时间完成的百分比
+      const d = easingFunc(t);
+
+      callback(d, t_diff === duration ? null : _inner);
+    });
+  };
+
+  _inner();
+};
+
 const AnimateDemo = () => {
+  const [top, setTop] = useState(0);
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
+
+  const i_func = interpolate([0, 1], [-windowHeight, windowHeight / 1.5]);
 
   const handlePress = () => {
     console.log('press');
+    setTop(0);
+
+    animate(1000, slow_down, (value, next) => {
+      setTop(value);
+      next && next();
+    });
   };
+
+  useEffect(() => {
+    console.log(top);
+    if (top === windowHeight / 1.5) {
+      return;
+    }
+  }, [top, windowHeight]);
 
   return (
     <View style={styles.wrapper}>
-      <Pressable onPress={handlePress}>
-        <View style={styles.ball(windowWidth, windowHeight)}>
-          <Text style={styles.txt}>click</Text>
-        </View>
-      </Pressable>
+      <View style={styles.ball(windowWidth, i_func(top))}>
+        <Text style={styles.txt}>ball</Text>
+      </View>
+      <View style={styles.btnWrap(windowHeight)} onPress={handlePress}>
+        <Button title="animate" onPress={handlePress} />
+      </View>
     </View>
   );
 };
