@@ -1390,6 +1390,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@thednp/bezier-easing@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/@thednp/bezier-easing/-/bezier-easing-1.0.1.tgz#7dd9c45d38158012f2c23bf25da8d2d9a4b36e88"
+  integrity sha512-wC3UYMnhvEV6Fw77ZbKGW7NqKGX0R+GgMbhA3AZs3b72lvinvS4s9oEmjg6Mku3mqaCtjaR1H1lxOmftY5oZ1g==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.npmmirror.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

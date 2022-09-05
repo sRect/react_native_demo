@@ -7,6 +7,7 @@ import {
   // Pressable,
   Button,
 } from 'react-native';
+import CubicBezier from '@thednp/bezier-easing';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -46,8 +47,19 @@ const styles = StyleSheet.create({
 });
 
 // const linear = t => t;
+
 const slow_down = t => {
   return 2 * t - t * t;
+};
+
+const easeCubicInOut = t => {
+  let func = new CubicBezier(0.56, 1.6, 0.07, 0.31);
+  return func(t);
+};
+
+const bounce = t => {
+  let func = new CubicBezier(1, 2.86, 0, -0.55);
+  return func(t);
 };
 
 const interpolate = (rangA, rangB) => {
@@ -58,6 +70,12 @@ const interpolate = (rangA, rangB) => {
   };
 };
 
+/**
+ * 动画
+ * @param {Number} duration 动画持续时间
+ * @param {Function} easingFunc 动画函数
+ * @param {Function} callback 回调函数
+ */
 const animate = (duration, easingFunc, callback) => {
   const i_time = interpolate([0, duration], [0, 1]);
   const t_start = new Date().getTime();
@@ -71,8 +89,10 @@ const animate = (duration, easingFunc, callback) => {
       }
 
       // 运动函数时间
+      // [0, duration]时间段，在t_diff当前时刻，映射到[0, 1]上，此时的时间，即当前时间完成的百分比
       const t = i_time(t_diff); // 当前时间完成的百分比
-      const d = easingFunc(t);
+      console.log('t==>', t);
+      const d = easingFunc(t); // 0到1之间，此时的距离s
 
       callback(d, t_diff === duration ? null : _inner);
     });
@@ -85,20 +105,22 @@ const AnimateDemo = () => {
   const [top, setTop] = useState(0);
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
 
+  // 将[0, 1]距离，映射到[x,x]实际上，计算出真实距离
   const i_func = interpolate([0, 1], [-windowHeight, windowHeight / 1.5]);
 
   const handlePress = () => {
     console.log('press');
+    // 每次点击，都将距离重置为0
     setTop(0);
 
-    animate(1000, slow_down, (value, next) => {
+    animate(1000, bounce, (value, next) => {
       setTop(value);
       next && next();
     });
   };
 
   useEffect(() => {
-    console.log(top);
+    console.log('top==>', top);
     if (top === windowHeight / 1.5) {
       return;
     }
@@ -110,7 +132,11 @@ const AnimateDemo = () => {
         <Text style={styles.txt}>ball</Text>
       </View>
       <View style={styles.btnWrap(windowHeight)} onPress={handlePress}>
-        <Button title="animate" onPress={handlePress} />
+        <Button
+          title="animate"
+          accessibilityLabel="animate"
+          onPress={handlePress}
+        />
       </View>
     </View>
   );
