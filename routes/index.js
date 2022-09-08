@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   txt: {
     color: '#ffffff',
     fontSize: 16,
-    fontFamily: 'lucida grande',
+    // fontFamily: 'lucida grande',
   },
   content: {
     flex: 1,

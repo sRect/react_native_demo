@@ -52,7 +52,10 @@ const styles = StyleSheet.create({
   },
   moveBtnText: {
     color: '#fff',
-    fontFamily: 'lucida grande',
+    // fontFamily:
+    //   Platform.OS === 'android'
+    //     ? 'lucida grande'
+    //     : 'PingFangSC-Medium, PingFang SC',
     padding: 0,
   },
 });
@@ -83,7 +86,7 @@ const WebviewDemo = () => {
 
   const handleOnError = e => {
     console.log('webview页面加载失败==>');
-    console.warn(e);
+    console.log(e);
   };
 
   const handleOnLoad = e => {

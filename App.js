@@ -1,5 +1,5 @@
 import React, {Suspense} from 'react';
-import {View} from 'react-native';
+import {View, SafeAreaView, Platform} from 'react-native';
 import Loading from './components/Loaing';
 import RouterConfig from './routes';
 import RootStore from './store/RootStore';
@@ -7,11 +7,19 @@ import RootStore from './store/RootStore';
 const App = () => {
   return (
     <RootStore>
-      <View>
-        <Suspense fallback={<Loading loadingText="my loading..." />}>
-          <RouterConfig />
-        </Suspense>
-      </View>
+      {Platform.OS === 'android' ? (
+        <View>
+          <Suspense fallback={<Loading loadingText="my loading..." />}>
+            <RouterConfig />
+          </Suspense>
+        </View>
+      ) : (
+        <SafeAreaView>
+          <Suspense fallback={<Loading loadingText="my loading..." />}>
+            <RouterConfig />
+          </Suspense>
+        </SafeAreaView>
+      )}
     </RootStore>
   );
 };

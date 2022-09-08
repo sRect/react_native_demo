@@ -1,5 +1,5 @@
 import React, {useContext, memo} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Context} from '../../store';
 import {actions} from './store';
 
@@ -19,11 +19,23 @@ const CountDemo = () => {
         <Text>count: {contObj.count}</Text>
       </View>
       <View>
-        <Button onPress={handleIncrement} title="increament" color="#841584" />
-        <Button onPress={handleDecrement} title="decreament" color="#841584" />
+        <TouchableOpacity style={styles.button} onPress={handleIncrement}>
+          <Text>increament</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleDecrement}>
+          <Text>decreament</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+  },
+});
 
 export default memo(CountDemo);

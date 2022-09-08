@@ -6,6 +6,7 @@ import {
   useWindowDimensions,
   // Pressable,
   Button,
+  Platform,
 } from 'react-native';
 import CubicBezier from '@thednp/bezier-easing';
 
@@ -29,7 +30,10 @@ const styles = StyleSheet.create({
   }),
   txt: {
     color: '#ffffff',
-    fontFamily: 'lucida grande',
+    // fontFamily:
+    //   Platform.OS === 'android'
+    //     ? 'lucida grande'
+    //     : 'PingFangSC-Medium, PingFang SC',
     fontSize: 24,
   },
   btnWrap: height => ({
@@ -37,12 +41,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    top: height - 100,
+    top: height - 150,
     zIndex: 10,
   }),
   btnTxt: {
     color: 'red',
-    fontFamily: 'lucida grande',
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'lucida grande'
+        : 'PingFangSC-Medium, PingFang SC',
   },
 });
 
